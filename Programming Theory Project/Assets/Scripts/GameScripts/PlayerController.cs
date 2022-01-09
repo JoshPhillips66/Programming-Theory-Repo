@@ -1,35 +1,39 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
+[RequireComponent(typeof(CharacterController), typeof(PlayerInput))]
 public class PlayerController : MonoBehaviour
 {
     public GameManager gameManager;
 
-    private Rigidbody playerRb;
+    private CharacterController controller;
     private PlayerInput playerInput;
     private InputActions inputActions;
     private Vector2 moveInput;
-    private float moveSpeed = 200f;
+    private Vector3 playerVelocity;
+    private bool groundedPlayer;
+    private Transform cameraTransform;
+
+    private float playerSpeed = 5.0f;
+    private float jumpHeight = 1.0f;
+    private float gravityValue = -9.81f;
+    private float rotationSpeed = 20f;
 
     private void Awake()
     {
-        
-
-        playerRb = GetComponent<Rigidbody>();
+        controller = GetComponent<CharacterController>();
         playerInput = GetComponent<PlayerInput>();
+        cameraTransform = Camera.main.transform;
 
         inputActions = new InputActions();
         inputActions.Default.Enable();
 
         inputActions.Default.Quit.performed += Quit_Performed;
         inputActions.Default.Jump.performed += Jump_Performed;
-        inputActions.Default.Shoot.performed += Shoot_Performed;
-        
+        inputActions.Default.Shoot.performed += Shoot_Performed;   
     }
 
-    void Update()
+    void FixedUpdate()
     {
         Move();
 
@@ -38,8 +42,36 @@ public class PlayerController : MonoBehaviour
     void Move()
     {
         //TODO: Need to set up good movement and rotation!!!!!
-        moveInput = inputActions.Default.Move.ReadValue<Vector2>().normalized;
-        playerRb.AddForce(new Vector3(moveInput.x, 0f, moveInput.y) * moveSpeed, ForceMode.Force);
+
+        //Checks if grounded and if on the ground sets y velocity to zero
+        groundedPlayer = controller.isGrounded;
+        if (groundedPlayer && playerVelocity.y < 0)
+        {
+            playerVelocity.y = 0f;
+        }
+
+        //Get movement input and change it into a vector 3
+        moveInput = inputActions.Default.Move.ReadValue<Vector2>();
+        Vector3 move = new Vector3(moveInput.x, 0, moveInput.y);
+        //take into account camera direction
+        move = move.x * cameraTransform.right.normalized + move.z * cameraTransform.forward.normalized;
+        move.y = 0f;
+
+        //Move the character
+        controller.Move(move * Time.deltaTime * playerSpeed);
+
+        //Rotates towards camera direction
+        Quaternion rotation = Quaternion.Euler(0, cameraTransform.eulerAngles.y, 0);
+        transform.rotation = Quaternion.Lerp(transform.rotation, rotation, rotationSpeed * Time.deltaTime);
+
+
+
+        //moves us back to earth if we are in the air
+        playerVelocity.y += gravityValue * Time.deltaTime;
+        controller.Move(playerVelocity * Time.deltaTime);
+
+
+
     }
 
     void Quit_Performed(InputAction.CallbackContext context)
@@ -51,7 +83,11 @@ public class PlayerController : MonoBehaviour
 
     void Jump_Performed(InputAction.CallbackContext context)
     {
-        //Make player jump
+        //Make player jump if he's grounded
+        if (groundedPlayer)
+        {
+            playerVelocity.y += Mathf.Sqrt(jumpHeight * -3.0f * gravityValue);
+        }
     }
 
     void Shoot_Performed(InputAction.CallbackContext context)
