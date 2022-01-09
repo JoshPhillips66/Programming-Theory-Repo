@@ -14,6 +14,12 @@ public class PlayerController : MonoBehaviour
     private bool groundedPlayer;
     private Transform cameraTransform;
 
+    [SerializeField] private GameObject bulletPrefab;
+    [SerializeField] private Transform barrelTransform; 
+    [SerializeField] private Transform bulletParentTransform;
+
+    private float bulletMissDistance = 30f;
+
     private float playerSpeed = 5.0f;
     private float jumpHeight = 1.0f;
     private float gravityValue = -9.81f;
@@ -31,6 +37,8 @@ public class PlayerController : MonoBehaviour
         inputActions.Default.Quit.performed += Quit_Performed;
         inputActions.Default.Jump.performed += Jump_Performed;
         inputActions.Default.Shoot.performed += Shoot_Performed;   
+
+        Cursor.lockState = CursorLockMode.Locked;
     }
 
     void FixedUpdate()
@@ -78,6 +86,7 @@ public class PlayerController : MonoBehaviour
     {
         //Sends call to gameMager to Quit to the main menu
         //TODO: pause game and pullup menu to quit or resume
+        inputActions.Default.Disable();
         gameManager.QuitGame();
     }
 
@@ -93,6 +102,22 @@ public class PlayerController : MonoBehaviour
     void Shoot_Performed(InputAction.CallbackContext context)
     {
         //make player shoot
+        RaycastHit hit;
+
+        GameObject bullet = GameObject.Instantiate(bulletPrefab, barrelTransform.position, Quaternion.identity, bulletParentTransform);
+        BulletController bulletController = bullet.GetComponent<BulletController>();
+
+        if (Physics.Raycast(cameraTransform.position, cameraTransform.forward, out hit, Mathf.Infinity))
+        {
+
+            bulletController.target = hit.point;
+            bulletController.hit = true;
+        } else
+        {
+
+            bulletController.target = cameraTransform.position + cameraTransform.forward * bulletMissDistance;
+            bulletController.hit = false;
+        }
     }
 
 
