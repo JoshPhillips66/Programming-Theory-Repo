@@ -10,6 +10,7 @@ public class MenuManger : MonoBehaviour
 
     private void Awake()
     {
+        Cursor.lockState = CursorLockMode.None;
         nameField.text = DataManager.Instance.GetPlayerName();
     }
 
