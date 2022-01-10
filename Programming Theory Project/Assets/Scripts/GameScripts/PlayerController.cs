@@ -18,12 +18,14 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private Transform barrelTransform; 
     [SerializeField] private Transform bulletParentTransform;
 
-    private float bulletMissDistance = 30f;
+    private float bulletMissDistance = 20f;
 
     private float playerSpeed = 5.0f;
     private float jumpHeight = 1.0f;
     private float gravityValue = -9.81f;
     private float rotationSpeed = 20f;
+    private float playerHealth = 5f;
+    private float knockbackSpeed = 6f;
 
     private void Awake()
     {
@@ -44,7 +46,32 @@ public class PlayerController : MonoBehaviour
     void FixedUpdate()
     {
         Move();
+        if (IsDead())
+        {
+            //end the game
+            Debug.Log("The Game is OVER!!!");
+        }
 
+    }
+
+    private bool IsDead()
+    {
+        if (playerHealth <= 0)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    public void TakeHit(float damage,Vector3 enemyPosition)
+    {
+        playerHealth -= damage;
+        //knockback
+        Vector3 knockBackDirection = (transform.position - enemyPosition).normalized;
+        controller.Move( new Vector3 (knockBackDirection.x * knockbackSpeed, .5f, knockBackDirection.z * knockbackSpeed));
     }
 
     void Move()
@@ -57,29 +84,20 @@ public class PlayerController : MonoBehaviour
         {
             playerVelocity.y = 0f;
         }
-
         //Get movement input and change it into a vector 3
         moveInput = inputActions.Default.Move.ReadValue<Vector2>();
         Vector3 move = new Vector3(moveInput.x, 0, moveInput.y);
         //take into account camera direction
         move = move.x * cameraTransform.right.normalized + move.z * cameraTransform.forward.normalized;
         move.y = 0f;
-
         //Move the character
         controller.Move(move * Time.deltaTime * playerSpeed);
-
         //Rotates towards camera direction
         Quaternion rotation = Quaternion.Euler(0, cameraTransform.eulerAngles.y, 0);
         transform.rotation = Quaternion.Lerp(transform.rotation, rotation, rotationSpeed * Time.deltaTime);
-
-
-
         //moves us back to earth if we are in the air
         playerVelocity.y += gravityValue * Time.deltaTime;
         controller.Move(playerVelocity * Time.deltaTime);
-
-
-
     }
 
     void Quit_Performed(InputAction.CallbackContext context)
@@ -103,16 +121,17 @@ public class PlayerController : MonoBehaviour
     {
         //make player shoot
         RaycastHit hit;
-
         GameObject bullet = GameObject.Instantiate(bulletPrefab, barrelTransform.position, Quaternion.identity, bulletParentTransform);
         BulletController bulletController = bullet.GetComponent<BulletController>();
+
 
         if (Physics.Raycast(cameraTransform.position, cameraTransform.forward, out hit, Mathf.Infinity))
         {
 
             bulletController.target = hit.point;
             bulletController.hit = true;
-        } else
+        }
+        else
         {
 
             bulletController.target = cameraTransform.position + cameraTransform.forward * bulletMissDistance;
