@@ -6,9 +6,12 @@ public class Enemy : MonoBehaviour
     protected float moveSpeed { get; set; } = 5f;
     protected float damageCaused { get; set; } = 1f;
 
+    protected int pointValue { get; set; } = 10;
+
     public float knockbackForce = 8f;
     public float rotationSpeed = 80f;
 
+    public GameManager gameManager;
     protected GameObject player;
     protected Rigidbody enemyRb;
     protected PlayerController playerController;
@@ -17,7 +20,7 @@ public class Enemy : MonoBehaviour
 
     private void Awake()
     {
-
+        gameManager = GameObject.FindObjectOfType<GameManager>();
         enemyRb = GetComponent<Rigidbody>();
         player = GameObject.FindGameObjectWithTag("Player");
         playerController = player.GetComponent<PlayerController>();
@@ -25,7 +28,11 @@ public class Enemy : MonoBehaviour
 
     private void Update()
     {
-        Move();
+        if (!gameManager.gameOver)
+        {
+            Move();
+        }
+
     }
 
 
@@ -78,7 +85,9 @@ public class Enemy : MonoBehaviour
         health -= 1;
         if (health <= 0)
         {
+            ScorePoints(pointValue);
             Destroy(gameObject);
+            
         }
     }
 
@@ -86,5 +95,10 @@ public class Enemy : MonoBehaviour
     {
         //Do damage to the player
         playerController.TakeHit(damageCaused, transform.position);
+    }
+
+    public virtual void ScorePoints(int points)
+    {
+        gameManager.AddScore(points);
     }
 }

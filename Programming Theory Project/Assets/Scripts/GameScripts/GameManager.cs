@@ -2,9 +2,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using TMPro;
 
 public class GameManager : MonoBehaviour
 {
+    public TextMeshProUGUI scoreText;
+    public TextMeshProUGUI healthText;
+    public TextMeshProUGUI gameOverScoreText;
+    public GameObject gameOverUI;
+
+    public PlayerController playerController;
+
     public GameObject[] spawnPositions;
     public GameObject[] enemies;
     private float spawnRate = 5f;
@@ -13,8 +21,16 @@ public class GameManager : MonoBehaviour
     private int numSpawnPositions;
     private int numEnemies;
 
+    private int score;
+    private float playerHealth;
+
+    public bool gameOver;
+
     void Start()
     {
+
+        scoreText.text = "Score: 0";
+        healthText.text = "Health: 5";
         numSpawnPositions = spawnPositions.Length;
         numEnemies = enemies.Length;
     }
@@ -22,7 +38,11 @@ public class GameManager : MonoBehaviour
 
     void Update()
     {
-        SpawnEnemies();
+        if (!gameOver)
+        {
+            SpawnEnemies();
+        }
+
     }
 
     private void SpawnEnemies()
@@ -42,5 +62,32 @@ public class GameManager : MonoBehaviour
         //Send game to Menu scene 0 is the Menu
         DataManager.Instance.SaveAll();
         SceneManager.LoadScene(0);
+    }
+
+    public void RestartGame()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    }
+
+    public void GameOver()
+    {
+        gameOver = true;
+        playerController.inputActions.Default.Disable();
+        Cursor.lockState = CursorLockMode.None;
+        gameOverScoreText.text = "Score: " + score;
+        gameOverUI.SetActive(true);
+        DataManager.Instance.UpdateHighScore(DataManager.Instance.GetPlayerName(), score);
+    }
+
+    public void AddScore(int points)
+    {
+        score += points;
+        scoreText.text = ("Score: " + score);
+    }
+
+    public void UpdateHealth(float health)
+    {
+        playerHealth = health;
+        healthText.text = ("Health: " + playerHealth);
     }
 }
