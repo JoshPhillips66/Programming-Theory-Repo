@@ -34,8 +34,6 @@ public class Enemy : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Bullet"))
         {
-
-            Destroy(other.gameObject);
             GotHit();
         }
     }
@@ -68,7 +66,7 @@ public class Enemy : MonoBehaviour
 
     }
 
-    protected void GotHit()
+    public void GotHit()
     {
         Vector3 playerPos = player.transform.position;
         Vector3 hitDirection = new Vector3(playerPos.x - transform.position.x, 0, playerPos.z - transform.position.z).normalized;

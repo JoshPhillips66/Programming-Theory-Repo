@@ -45,6 +45,8 @@ public class PlayerController : MonoBehaviour
 
     void FixedUpdate()
     {
+        
+
         Move();
         if (IsDead())
         {
@@ -119,25 +121,20 @@ public class PlayerController : MonoBehaviour
 
     void Shoot_Performed(InputAction.CallbackContext context)
     {
-        //make player shoot
         RaycastHit hit;
         GameObject bullet = GameObject.Instantiate(bulletPrefab, barrelTransform.position, Quaternion.identity, bulletParentTransform);
         BulletController bulletController = bullet.GetComponent<BulletController>();
-
-
         if (Physics.Raycast(cameraTransform.position, cameraTransform.forward, out hit, Mathf.Infinity))
         {
-
             bulletController.target = hit.point;
             bulletController.hit = true;
-        }
-        else
+        } else
         {
-
             bulletController.target = cameraTransform.position + cameraTransform.forward * bulletMissDistance;
             bulletController.hit = false;
         }
     }
+
 
 
 }
