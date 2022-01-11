@@ -28,13 +28,11 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
-
         scoreText.text = "Score: 0";
         healthText.text = "Health: 5";
         numSpawnPositions = spawnPositions.Length;
         numEnemies = enemies.Length;
     }
-
 
     void Update()
     {
@@ -42,7 +40,6 @@ public class GameManager : MonoBehaviour
         {
             SpawnEnemies();
         }
-
     }
 
     private void SpawnEnemies()

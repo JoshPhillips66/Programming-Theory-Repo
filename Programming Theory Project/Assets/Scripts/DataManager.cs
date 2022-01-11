@@ -22,29 +22,77 @@ public class DataManager : MonoBehaviour
         {
             topTenScores[i] = new HighScoreEntry();
         }
-
         if (Instance != null)
         {
             Destroy(gameObject);
             return;
         }
-
         Instance = this;
         DontDestroyOnLoad(gameObject);
-        
         LoadAll();
-
-
-
     }
 
+    public void UpdateHighScore(string playerName, int score)
+    {
+        if (score > highScore)
+        {
+            highScoreName = playerName;
+            highScore = score;
+        }
+        //replaces last score on list with the new entry
+        if (score > topTenScores[topTenScores.Length - 1].myScore)
+        {
+            topTenScores[topTenScores.Length - 1].myScore = score;
+            topTenScores[topTenScores.Length - 1].myName = playerName;
+        }
+        //Sort High Scores
+        HighScoreEntry temp = new HighScoreEntry();
+        for (int i = topTenScores.Length - 1; i > 0; --i)
+        {
+            if (topTenScores[i].myScore > topTenScores[i - 1].myScore)
+            {
+                temp = topTenScores[i];
+                topTenScores[i] = topTenScores[i - 1];
+                topTenScores[i - 1] = temp;
+            }
+            else
+            {
+                break;
+            }
+        }
+        SaveAll();
+    }
+
+    public void SetPlayerName(string currentPlayer) { playerName = currentPlayer; }
+    public string GetPlayerName() { return playerName; }
+    public string GetHighScoreName() { return highScoreName; }
+    public int GetHighScore() { return highScore; }
+
+    public int[] GetHighScoreArray()
+    {
+        int[] temp = new int[10];
+        for (int i = 0; i < 10; i++)
+        {
+            temp[i] = topTenScores[i].myScore;
+        }
+        return temp;
+    }
+
+    public string[] GetHighPlayerArray()
+    {
+        string[] temp = new string[10];
+        for (int i = 0; i < 10; i++)
+        {
+            temp[i] = topTenScores[i].myName;
+        }
+        return temp;
+    }
     public class HighScoreEntry
     {
         public int myScore = 0;
         public string myName = "";
 
     }
-
 
     [System.Serializable]
     class SaveData
@@ -73,110 +121,7 @@ public class DataManager : MonoBehaviour
         public string highPlayer8;
         public string highPlayer9;
         public string highPlayer10;
-
     }
-
-    public void UpdateHighScore(string playerName, int score)
-    {
-        if (score > highScore)
-        {
-            highScoreName = playerName;
-            highScore = score;
-
-        }
-        //replaces last score on list with the new entry
-        if (score > topTenScores[topTenScores.Length - 1].myScore)
-        {
-            topTenScores[topTenScores.Length -1].myScore = score;
-            topTenScores[topTenScores.Length - 1].myName = playerName;
-        }
-        //Sort High Scores
-        HighScoreEntry temp = new HighScoreEntry();
-        for (int i = topTenScores.Length - 1; i >0; --i)
-        {
-            if (topTenScores[i].myScore > topTenScores[i-1].myScore)
-            {
-                temp = topTenScores[i];
-                topTenScores[i] = topTenScores[i-1];
-                topTenScores[i-1] = temp;
-
-            } else
-            {
-                break;
-            }
-        }
-        SaveAll();
-    }
-
-
-
-    public void SetPlayerName(string currentPlayer)
-    {
-        playerName = currentPlayer;
-    }
-
-    public string GetPlayerName()
-    {
-        return playerName;
-    }
-
-    public string GetHighScoreName()
-    {
-        return highScoreName;
-    }
-
-    public int GetHighScore()
-    {
-        return highScore;
-    }
-
-    public int[] GetHighScoreArray()
-    {
-        int[] temp = new int[10];
-        for (int i = 0; i < 10; i++)
-        {
-            temp[i] = topTenScores[i].myScore;
-        }
-
-        return temp;
-    }
-
-    public string[] GetHighPlayerArray()
-    {
-        string[] temp = new string[10];
-        for (int i = 0; i < 10; i++)
-        {
-            temp[i] = topTenScores[i].myName;
-        }
-
-        return temp;
-    }
-
-/*    private void SaveHighScore()
-    {
-        SaveData data = new SaveData();
-        data.highScoreName = highScoreName;
-        data.highScore = highScore;
-        data.highScoreArray = topTenScores;
-
-        string json = JsonUtility.ToJson(data);
-
-        File.WriteAllText(Application.persistentDataPath + "/savefile.json", json);
-    }
-
-    private void LoadHighScore()
-    {
-        string path = Application.persistentDataPath + "/savefile.jason";
-        if (File.Exists(path))
-        {
-            string json = File.ReadAllText(path);
-            SaveData data = JsonUtility.FromJson<SaveData>(json);
-
-            highScoreName = data.highScoreName;
-            highScore = data.highScore;
-            topTenScores = data.highScoreArray;
-        }
-    }*/
 
     public void SaveAll()
     {
@@ -188,7 +133,7 @@ public class DataManager : MonoBehaviour
         data.highScore2 = topTenScores[1].myScore;
         data.highScore3 = topTenScores[2].myScore;
         data.highScore4 = topTenScores[3].myScore;
-        data.highScore5 = topTenScores[4].myScore; 
+        data.highScore5 = topTenScores[4].myScore;
         data.highScore6 = topTenScores[5].myScore;
         data.highScore7 = topTenScores[6].myScore;
         data.highScore8 = topTenScores[7].myScore;
@@ -204,11 +149,8 @@ public class DataManager : MonoBehaviour
         data.highPlayer8 = topTenScores[7].myName;
         data.highPlayer9 = topTenScores[8].myName;
         data.highPlayer10 = topTenScores[9].myName;
-        
 
-
-    string json = JsonUtility.ToJson(data);
-
+        string json = JsonUtility.ToJson(data);
         File.WriteAllText(Application.persistentDataPath + "/savefile.json", json);
     }
 
@@ -243,9 +185,6 @@ public class DataManager : MonoBehaviour
             topTenScores[7].myName = data.highPlayer8;
             topTenScores[8].myName = data.highPlayer9;
             topTenScores[9].myName = data.highPlayer10;
-
         }
     }
-
-
 }

@@ -13,8 +13,6 @@ public class DeathCam : MonoBehaviour
     {
         virtualCamera = GetComponent<CinemachineVirtualCamera>();
         gameManager = FindObjectOfType<GameManager>();
-
-
     }
 
     // Update is called once per frame
@@ -25,6 +23,5 @@ public class DeathCam : MonoBehaviour
             virtualCamera.Priority = deathPriority;
             Debug.Log("The DEATH camera should be active");
         }
-
     }
 }

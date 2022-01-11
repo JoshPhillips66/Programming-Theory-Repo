@@ -6,17 +6,10 @@ public class BulletController : MonoBehaviour
 {
     private Enemy enemyHit;
     private float bulletSpeed = 50f;
-    //private float timeToDestroy = 3f;
 
     public Vector3 target { get; set; }
     public bool hit { get; set; }
 
-
-    private void OnEnable()
-    {
-
-
-    }
 
     void FixedUpdate()
     {
@@ -25,7 +18,6 @@ public class BulletController : MonoBehaviour
       {
         Destroy(gameObject);
        }
-
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -34,6 +26,5 @@ public class BulletController : MonoBehaviour
         {
             Destroy(gameObject);
         }
-
     }
 }

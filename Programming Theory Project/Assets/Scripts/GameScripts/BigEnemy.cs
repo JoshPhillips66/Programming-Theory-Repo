@@ -15,6 +15,4 @@ public class BigEnemy : Enemy
         player = GameObject.FindGameObjectWithTag("Player");
         playerController = player.GetComponent<PlayerController>();
     }
-
-
 }

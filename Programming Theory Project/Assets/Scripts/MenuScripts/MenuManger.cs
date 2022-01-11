@@ -11,14 +11,11 @@ public class MenuManger : MonoBehaviour
     public GameObject highScorePopup;
     public TextMeshProUGUI highScoreNames;
     public TextMeshProUGUI highScores;
-    
-
 
     private void Start()
     {
         Cursor.lockState = CursorLockMode.None;
         nameField.text = DataManager.Instance.GetPlayerName();
-
     }
 
     public void DisplayHighScores()
@@ -32,7 +29,6 @@ public class MenuManger : MonoBehaviour
             {
                 tempString += playerScores[i] + "\n";
             }
-
         }
         highScores.text = tempString;
         tempString = string.Empty;
