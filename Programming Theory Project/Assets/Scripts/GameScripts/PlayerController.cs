@@ -8,7 +8,7 @@ public class PlayerController : MonoBehaviour
 
     private CharacterController controller;
     private PlayerInput playerInput;
-    private InputActions inputActions;
+    public InputActions inputActions;
     private Vector2 moveInput;
     private Vector3 playerVelocity;
     private bool groundedPlayer;
@@ -45,11 +45,14 @@ public class PlayerController : MonoBehaviour
 
     void FixedUpdate()
     {
-        Move();
-        if (IsDead())
+        if (!gameManager.gameOver)
         {
-            //end the game
-            Debug.Log("The Game is OVER!!!");
+            Move();
+            if (IsDead())
+            {
+                Debug.Log("The Game is OVER!!!");
+                gameManager.GameOver();
+            }
         }
 
     }
@@ -69,6 +72,7 @@ public class PlayerController : MonoBehaviour
     public void TakeHit(float damage,Vector3 enemyPosition)
     {
         playerHealth -= damage;
+        gameManager.UpdateHealth(playerHealth);
         //knockback
         Vector3 knockBackDirection = (transform.position - enemyPosition).normalized;
         controller.Move( new Vector3 (knockBackDirection.x * knockbackSpeed, .5f, knockBackDirection.z * knockbackSpeed));
@@ -119,25 +123,20 @@ public class PlayerController : MonoBehaviour
 
     void Shoot_Performed(InputAction.CallbackContext context)
     {
-        //make player shoot
         RaycastHit hit;
         GameObject bullet = GameObject.Instantiate(bulletPrefab, barrelTransform.position, Quaternion.identity, bulletParentTransform);
         BulletController bulletController = bullet.GetComponent<BulletController>();
-
-
         if (Physics.Raycast(cameraTransform.position, cameraTransform.forward, out hit, Mathf.Infinity))
         {
-
             bulletController.target = hit.point;
             bulletController.hit = true;
-        }
-        else
+        } else
         {
-
             bulletController.target = cameraTransform.position + cameraTransform.forward * bulletMissDistance;
             bulletController.hit = false;
         }
     }
+
 
 
 }

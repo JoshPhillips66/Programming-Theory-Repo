@@ -3,7 +3,11 @@ guid: f4e301fae6744664d870e22cf8ae7525
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - gameManager: {instanceID: 0}
+  - bulletPrefab: {fileID: 3970594601680512608, guid: 73d802f7da45eb645a7c0c9f2ea5ce54, type: 3}
+  - barrelTransform: {instanceID: 0}
+  - bulletParentTransform: {instanceID: 0}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

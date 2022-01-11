@@ -6,9 +6,11 @@ public class BigEnemy : Enemy
 {
     private void Awake()
     {
-        health = 8f;
-        moveSpeed = 2f;
+        pointValue = 50;
+        health = 6f;
+        moveSpeed = 3f;
         damageCaused = 2.5f;
+        gameManager = GameObject.FindObjectOfType<GameManager>();
         enemyRb = GetComponent<Rigidbody>();
         player = GameObject.FindGameObjectWithTag("Player");
         playerController = player.GetComponent<PlayerController>();
