@@ -56,6 +56,7 @@ public class GameManager : MonoBehaviour
 
     public void QuitGame()
     {
+        
         //Send game to Menu scene 0 is the Menu
         DataManager.Instance.SaveAll();
         SceneManager.LoadScene(0);

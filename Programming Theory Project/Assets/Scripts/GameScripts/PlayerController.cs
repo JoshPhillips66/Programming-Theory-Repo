@@ -11,7 +11,7 @@ public class PlayerController : MonoBehaviour
     public InputActions inputActions;
     private Vector2 moveInput;
     private Vector3 playerVelocity;
-    private bool groundedPlayer;
+    public bool groundedPlayer;
     private Transform cameraTransform;
 
     [SerializeField] private GameObject bulletPrefab;
@@ -85,6 +85,7 @@ public class PlayerController : MonoBehaviour
             playerVelocity.y = 0f;
         }
         moveInput = inputActions.Default.Move.ReadValue<Vector2>();
+
         Vector3 move = new Vector3(moveInput.x, 0, moveInput.y);
         move = move.x * cameraTransform.right.normalized + move.z * cameraTransform.forward.normalized;
         move.y = 0f;
@@ -94,6 +95,7 @@ public class PlayerController : MonoBehaviour
         playerVelocity.y += gravityValue * Time.deltaTime;
         controller.Move(playerVelocity * Time.deltaTime);
     }
+
 
     void Quit_Performed(InputAction.CallbackContext context)
     {
@@ -106,11 +108,13 @@ public class PlayerController : MonoBehaviour
         if (groundedPlayer)
         {
             playerVelocity.y += Mathf.Sqrt(jumpHeight * -3.0f * gravityValue);
+
         }
     }
 
     void Shoot_Performed(InputAction.CallbackContext context)
     {
+
         RaycastHit hit;
         GameObject bullet = GameObject.Instantiate(bulletPrefab, barrelTransform.position, Quaternion.identity, bulletParentTransform);
         BulletController bulletController = bullet.GetComponent<BulletController>();

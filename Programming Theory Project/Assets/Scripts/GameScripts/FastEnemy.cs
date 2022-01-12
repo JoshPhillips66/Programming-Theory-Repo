@@ -6,6 +6,7 @@ public class FastEnemy : Enemy
 {
     private void Awake()
     {
+        knockbackForce = 7f;
         pointValue = 25;
         health = 3f;
         moveSpeed = 7f;
