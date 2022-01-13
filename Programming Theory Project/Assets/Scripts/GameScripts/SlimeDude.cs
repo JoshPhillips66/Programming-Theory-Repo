@@ -29,7 +29,7 @@ public class SlimeDude : FastEnemy
 
     public override void PlaySounds()
     {
-        if (!isDead && Time.time - lastPlay > 1.1f)
+        if (!isDead && !playerController.IsDead()  && Time.time - lastPlay > 1.1f)
         {
            audioSource.Play();
             lastPlay = Time.time;

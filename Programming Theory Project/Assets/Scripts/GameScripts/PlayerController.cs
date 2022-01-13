@@ -53,14 +53,13 @@ public class PlayerController : MonoBehaviour
             Move();
             if (IsDead())
             {
-                Debug.Log("The Game is OVER!!!");
                 gameManager.GameOver();
             }
         }
 
     }
 
-    private bool IsDead()
+    public bool IsDead()
     {
         if (playerHealth <= 0)
         {

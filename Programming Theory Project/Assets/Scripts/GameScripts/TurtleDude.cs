@@ -29,7 +29,7 @@ public class TurtleDude : FastEnemy
 
     public override void PlaySounds()
     {
-        if (!isDead && Time.time - lastPlay > 1.5f)
+        if (!isDead && !playerController.IsDead() && Time.time - lastPlay > 1.5f)
         {
             audioSource.Play();
             lastPlay = Time.time;

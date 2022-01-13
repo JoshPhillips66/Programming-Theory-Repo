@@ -21,7 +21,6 @@ public class DeathCam : MonoBehaviour
         if (gameManager.gameOver)
         {
             virtualCamera.Priority = deathPriority;
-            Debug.Log("The DEATH camera should be active");
         }
     }
 }
