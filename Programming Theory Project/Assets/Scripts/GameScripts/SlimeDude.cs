@@ -2,36 +2,38 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BigEnemy : Enemy
+public class SlimeDude : FastEnemy
 {
     AudioSource audioSource;
-    public AudioClip[] monsterSounds;
-    private float lastTime;
+    public AudioClip slimeDudeClip;
+    float lastPlay;
+
+
 
     private void Awake()
     {
-        knockbackForce = 1f;
-        pointValue = 50;
-        health = 6f;
-        moveSpeed = 3f;
-        damageCaused = 2.5f;
+        knockbackForce = 7f;
+        pointValue = 25;
+        health = 3f;
+        moveSpeed = 8f;
+        damageCaused = 1f;
         gameManager = GameObject.FindObjectOfType<GameManager>();
         enemyRb = GetComponent<Rigidbody>();
         player = GameObject.FindGameObjectWithTag("Player");
         playerController = player.GetComponent<PlayerController>();
         audioSource = GetComponent<AudioSource>();
 
-        lastTime = 0f;
+        lastPlay = Time.time;
+        
     }
 
-    public override void GotHit()
+    public override void PlaySounds()
     {
-        base.GotHit();
-        
-        if (isDead == false && Time.time - lastTime > .28f)
+        if (!isDead && Time.time - lastPlay > 1.1f)
         {
-            audioSource.PlayOneShot(monsterSounds[0]);
+           audioSource.Play();
+            lastPlay = Time.time;
         }
-        lastTime = Time.time;
     }
+
 }

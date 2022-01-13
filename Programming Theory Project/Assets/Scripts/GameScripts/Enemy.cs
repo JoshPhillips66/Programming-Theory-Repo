@@ -13,9 +13,13 @@ public class Enemy : MonoBehaviour
     protected GameObject player;
     protected Rigidbody enemyRb;
     protected PlayerController playerController;
+    public bool isDead;
+
+
 
     private void Awake()
     {
+
         gameManager = GameObject.FindObjectOfType<GameManager>();
         enemyRb = GetComponent<Rigidbody>();
         player = GameObject.FindGameObjectWithTag("Player");
@@ -28,6 +32,12 @@ public class Enemy : MonoBehaviour
         {
             Move();
         }
+        PlaySounds();
+    }
+
+    public virtual void PlaySounds()
+    {
+        //Holder for audio sources
     }
 
     private void OnTriggerEnter(Collider other)
@@ -58,7 +68,7 @@ public class Enemy : MonoBehaviour
         transform.position += ( moveDirection * moveSpeed * Time.deltaTime);
     }
 
-    public void GotHit()
+    public virtual void GotHit()
     {
         Vector3 playerPos = player.transform.position;
         Vector3 hitDirection = new Vector3(playerPos.x - transform.position.x, 0, playerPos.z - transform.position.z).normalized;
@@ -70,6 +80,7 @@ public class Enemy : MonoBehaviour
         health -= 1;
         if (health <= 0)
         {
+            isDead = true;
             ScorePoints(pointValue);
             Destroy(gameObject);
             

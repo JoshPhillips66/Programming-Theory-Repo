@@ -6,6 +6,9 @@ public class PlayerController : MonoBehaviour
 {
     public GameManager gameManager;
 
+    [SerializeField] AudioSource audioSource;
+    [SerializeField] AudioClip gotHitClip;
+
     private CharacterController controller;
     private PlayerInput playerInput;
     public InputActions inputActions;
@@ -71,6 +74,7 @@ public class PlayerController : MonoBehaviour
 
     public void TakeHit(float damage, Vector3 enemyPosition)
     {
+        audioSource.PlayOneShot(gotHitClip);
         playerHealth -= damage;
         gameManager.UpdateHealth(playerHealth);
         Vector3 knockBackDirection = (transform.position - enemyPosition).normalized;
@@ -114,7 +118,7 @@ public class PlayerController : MonoBehaviour
 
     void Shoot_Performed(InputAction.CallbackContext context)
     {
-
+        audioSource.Play();
         RaycastHit hit;
         GameObject bullet = GameObject.Instantiate(bulletPrefab, barrelTransform.position, Quaternion.identity, bulletParentTransform);
         BulletController bulletController = bullet.GetComponent<BulletController>();
