@@ -20,6 +20,10 @@ public class GameManager : MonoBehaviour
     private float lastSpawnTime = 0f;
     private int numSpawnPositions;
     private int numEnemies;
+    private int enemyWaveSize = 6;
+    private int enemiesSpawnedinWave = 0;
+    private float minSpawnRate = .5f;
+    private float spawnRateIncrement = .5f;
 
     private int score;
     private float playerHealth;
@@ -51,6 +55,12 @@ public class GameManager : MonoBehaviour
             Instantiate(enemies[enemyToSpawn], spawnPositions[spawnPos].transform.position, Quaternion.identity);
             Debug.Log("Spawn an enemy");
             lastSpawnTime = Time.time;
+            enemiesSpawnedinWave++;
+            if (spawnRate >= minSpawnRate && enemiesSpawnedinWave >= enemyWaveSize)
+            {
+                spawnRate -= spawnRateIncrement;
+                enemiesSpawnedinWave = 0;
+            }
         }
     }
 
