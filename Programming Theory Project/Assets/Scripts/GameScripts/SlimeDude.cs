@@ -12,10 +12,10 @@ public class SlimeDude : FastEnemy
 
     private void Awake()
     {
-        knockbackForce = 7f;
+        knockbackForce = 4f;
         pointValue = 25;
         health = 3f;
-        moveSpeed = 8f;
+        moveSpeed = 6f;
         damageCaused = 1f;
         gameManager = GameObject.FindObjectOfType<GameManager>();
         enemyRb = GetComponent<Rigidbody>();

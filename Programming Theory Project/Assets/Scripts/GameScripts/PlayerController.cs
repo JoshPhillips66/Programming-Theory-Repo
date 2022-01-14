@@ -30,6 +30,8 @@ public class PlayerController : MonoBehaviour
     private float playerHealth = 5f;
     private float knockbackSpeed = 6f;
 
+
+
     private void Awake()
     {
         controller = GetComponent<CharacterController>();
@@ -118,6 +120,7 @@ public class PlayerController : MonoBehaviour
     void Shoot_Performed(InputAction.CallbackContext context)
     {
         audioSource.Play();
+    
         RaycastHit hit;
         GameObject bullet = GameObject.Instantiate(bulletPrefab, barrelTransform.position, Quaternion.identity, bulletParentTransform);
         BulletController bulletController = bullet.GetComponent<BulletController>();

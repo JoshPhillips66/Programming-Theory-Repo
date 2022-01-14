@@ -13,8 +13,8 @@ public class BigEnemy : Enemy
         knockbackForce = 1f;
         pointValue = 50;
         health = 6f;
-        moveSpeed = 3f;
-        damageCaused = 2.5f;
+        moveSpeed = 4.5f;
+        damageCaused = 3f;
         gameManager = GameObject.FindObjectOfType<GameManager>();
         enemyRb = GetComponent<Rigidbody>();
         player = GameObject.FindGameObjectWithTag("Player");

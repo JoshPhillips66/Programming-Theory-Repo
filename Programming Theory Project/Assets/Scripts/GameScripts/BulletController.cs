@@ -5,7 +5,7 @@ using UnityEngine;
 public class BulletController : MonoBehaviour
 {
     private Enemy enemyHit;
-    private float bulletSpeed = 50f;
+    private float bulletSpeed = 100f;
 
     public Vector3 target { get; set; }
     public bool hit { get; set; }
