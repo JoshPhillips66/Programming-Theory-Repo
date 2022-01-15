@@ -57,6 +57,7 @@ public class MenuManger : MonoBehaviour
     {
         //TODO
         DataManager.Instance.SaveAll();
+        Application.Quit();
     }
 
     public void BackButton()

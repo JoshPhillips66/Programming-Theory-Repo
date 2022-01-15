@@ -46,14 +46,16 @@ public class Enemy : MonoBehaviour
         {
             GotHit();
         }
+        if (other.gameObject.CompareTag("Player"))
+        {
+
+            DoDamage();
+        }
     }
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.CompareTag("Player"))
-        {
-            DoDamage();
-        }
+
     }
     protected void Move()
     {

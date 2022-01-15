@@ -10,9 +10,9 @@ GameObject:
   m_Component:
   - component: {fileID: 4813310795096584082}
   - component: {fileID: 8746042818460208283}
-  - component: {fileID: 1509544195187769211}
   - component: {fileID: 1062823533259491593}
   - component: {fileID: -8854840596324370786}
+  - component: {fileID: 596545994394963986}
   m_Layer: 0
   m_Name: SlimeDude
   m_TagString: Enemy
@@ -51,19 +51,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!135 &1509544195187769211
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4813310795096584086}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.561318
-  m_Center: {x: 0, y: 0.46131796, z: 0}
 --- !u!82 &1062823533259491593
 AudioSource:
   m_ObjectHideFlags: 0
@@ -177,6 +164,19 @@ MonoBehaviour:
   gameManager: {fileID: 0}
   isDead: 0
   slimeDudeClip: {fileID: 0}
+--- !u!65 &596545994394963986
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4813310795096584086}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 0.9473883, z: 0.96375465}
+  m_Center: {x: 0, y: 0.4565093, z: 0.0144815445}
 --- !u!1001 &5496984748832286759
 PrefabInstance:
   m_ObjectHideFlags: 0

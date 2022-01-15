@@ -10,9 +10,9 @@ GameObject:
   m_Component:
   - component: {fileID: 6087077842450935005}
   - component: {fileID: 8058587060968476628}
-  - component: {fileID: 164117315012787252}
   - component: {fileID: 4653966623159194417}
   - component: {fileID: -1799154439392094077}
+  - component: {fileID: 628514053564025765}
   m_Layer: 0
   m_Name: TurtleDude
   m_TagString: Enemy
@@ -51,19 +51,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!135 &164117315012787252
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6087077842450935001}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.5698553
-  m_Center: {x: 0, y: 0.46985525, z: 0}
 --- !u!82 &4653966623159194417
 AudioSource:
   m_ObjectHideFlags: 0
@@ -172,6 +159,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 613d00c98cffca14a959e4072773fdb3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  knockbackForce: 8
+  rotationSpeed: 80
+  gameManager: {fileID: 0}
+  isDead: 0
+  slimeDudeClip: {fileID: 0}
+--- !u!65 &628514053564025765
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6087077842450935001}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1, z: 1.1635535}
+  m_Center: {x: 0, y: 0.5, z: -0.02536726}
 --- !u!1001 &2421872661791263075
 PrefabInstance:
   m_ObjectHideFlags: 0

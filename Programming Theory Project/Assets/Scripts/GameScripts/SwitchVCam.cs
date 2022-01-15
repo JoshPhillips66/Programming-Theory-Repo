@@ -29,8 +29,8 @@ public class SwitchVCam : MonoBehaviour
 
     private void OnDisable()
     {
-        aimAction.performed += _ => StartAim();
-        aimAction.canceled += _ => CancelAim();
+        aimAction.performed -= _ => StartAim();
+        aimAction.canceled -= _ => CancelAim();
     }
 
     private void StartAim()

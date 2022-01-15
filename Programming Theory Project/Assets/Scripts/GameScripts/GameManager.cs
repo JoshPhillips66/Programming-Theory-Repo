@@ -22,7 +22,7 @@ public class GameManager : MonoBehaviour
     private int numEnemies;
     private int enemyWaveSize = 6;
     private int enemiesSpawnedinWave = 0;
-    private float minSpawnRate = 1f;
+    private float minSpawnRate = 1.5f;
     private float spawnRateIncrement = .4f;
 
     private int score;
